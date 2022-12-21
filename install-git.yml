@@ -1,0 +1,23 @@
+---
+- name: Install Git
+  hosts: ansible
+  remote_user: ansadmin
+  become: true
+  become_user: root
+  tasks:
+    - name: Install packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - git
+    - name: Check version
+      shell: |
+        git --version  
+    - debug:
+        msg: installed git
+    - name: Disable SELinux
+      selinux:
+        state: disabled
+
