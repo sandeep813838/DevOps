@@ -1,0 +1,19 @@
+---
+- name: variable playbook 
+  hosts: localhost
+  become: true
+  remote_user: ansadmin
+  vars: 
+    name: sampath
+    surnam: alexiou 
+  #vars_files: 
+   # - vars/users.yml 
+  tasks: 
+    - name: variables for {{ name }} {{ surname }}
+      debug: 
+        msg: "Name: {{ name }}"
+
+
+    - name: Variable string 
+      debug: 
+        msg: "{{ name }}" 

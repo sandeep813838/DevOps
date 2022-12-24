@@ -1,0 +1,32 @@
+--- #(yaml file starts with ---)
+- name: install and configure the http # some one know about the use if thid playbook 
+  hosts: testServers # target group from the host file 
+  remote_user: ec2-user # login to remote user as ec2-user 
+  become: yes #(this for root previlages)
+
+  vars: 
+    myhttp_port: 80 
+  task:
+    - name: install http 
+      yum: name=httpd state=latest 
+
+    - name: create http configuration file 
+      templete: src=my.httpd.config dest=/etc/httpd/http,conf 
+      nofify: restart httpd 
+    
+    - name: create httpd log file
+      file: path=/var/log/httpd.log state=touch owner=http group=http mode=0775
+    
+    - name: start httpd service 
+
+      service: name=httpd state=started enabled=yes 
+
+    handlers: # Hanler only run when there are chages in the installation or configuration
+    - name: restart http 
+      service: name=httpd state=restarted 
+
+
+
+
+
+ 
